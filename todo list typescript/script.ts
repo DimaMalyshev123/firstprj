@@ -1,15 +1,19 @@
-function enterKey(e) {
+function alertGreetings(greeting: string): void {
+    alert(greeting);
+}
+
+function enterKey(e: KeyboardEvent) : void {
     if (e.keyCode == 13) {
         addToDo();
     }
 }
 
-function addToDo() {
-    const toDo = document.getElementById('toDos').value;
+function addToDo() : void {
+    const toDo : string = (<HTMLInputElement>document.getElementById('toDos')).value;
 
     if (!toDo.trim()) return alert('Nothing entered');
 
-    document.getElementById('toDos').value = "";
+    (<HTMLInputElement>document.getElementById('toDos')).value = "";
 
     const element = document.createElement('li');
     const text = document.createTextNode(toDo);
@@ -41,17 +45,16 @@ function addToDo() {
     
 }
 
-function removeRecord(event) {
+function removeRecord(event ) :void {
     document.getElementById('listToDo').removeChild(event.path[1]);
     document.getElementById('countItem').textContent = "Active item:" + document.getElementsByClassName('active').length;
 }
 
-function toggleText(event) {
-    console.log(event);
-    event.target.classList.remove('taskBlock');
-    if (event.target.className == 'active') {
-        event.target.classList.remove('active');
-        event.target.classList.add('completed','taskBlock');
+function toggleText(event : MouseEvent ) : void {
+    (<HTMLTextAreaElement>(<HTMLTextAreaElement>event.target)).classList.remove('taskBlock');
+    if ((<HTMLTextAreaElement>event.target).className == 'active') {
+        (<HTMLTextAreaElement>event.target).classList.remove('active');
+        (<HTMLTextAreaElement>event.target).classList.add('completed','taskBlock');
 
         if(!document.getElementById('deleteComplete')) {
             const deleteCompleteBtn = document.createElement('input');
@@ -67,22 +70,22 @@ function toggleText(event) {
         document.getElementById('countItem').textContent = "Active item:" + document.getElementsByClassName('active').length;
     }
     else {
-        event.target.classList.remove('completed');
-        event.target.classList.add('active','taskBlock');
+        (<HTMLTextAreaElement>event.target).classList.remove('completed');
+        (<HTMLTextAreaElement>event.target).classList.add('active','taskBlock');
         document.getElementById('countItem').textContent = "Active item:" + document.getElementsByClassName('active').length;
     }
 }
 
-function deleteCompleted() {
+function deleteCompleted() : void {
     const elements = document.getElementsByClassName("completed");
     while (elements.length > 0) elements[0].remove();
     document.getElementById('deleteComplete').remove();
     document.getElementById('countItem').textContent = "Active item:" + document.getElementsByClassName('active').length;
 }
 
-function allComplete() {
+function allComplete() : void {
     const todos = document.getElementsByTagName('li');
-    for (let i = 0; i < todos.length; i++) {
+    for (let i : number = 0; i < todos.length; i++) {
         todos[i].classList.remove('active');
         todos[i].classList.add('completed');
     }
