@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
-<script src = "script.js"></script>
-<input type = "text" placeholder="To do list" id = "list">
-<input type = "submit" onclick = "toDoList()" value = "ToDo">
-<div>
-   <ul id = "listDo"></ul>
-</div>
+    <script src="script.js"></script>
+    <div id="container">
+        <div>
+            <h1>todos</h1>
+                <div class = "toDoList">
+                    <div class = "inputAddBlock">
+                        <input type="text" class = "inputAdd" placeholder="To do list" id="toDos">
+                        <input type="submit" class = "addButton" onclick="addToDo()" value="ToDo">
+                    </div>
+                    <div>
+                        <ul id="listToDo"></ul>
+                        <p id="countItem"></p>
+                    </div>
+                </div>
+        </div>
+    </div>
 </body>
+
 </html>
