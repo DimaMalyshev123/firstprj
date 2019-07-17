@@ -1,0 +1,9 @@
+
+.active {
+    color: #08328b;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: green;
+}

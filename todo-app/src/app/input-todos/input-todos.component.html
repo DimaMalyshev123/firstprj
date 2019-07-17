@@ -1,0 +1,31 @@
+
+<input name = "title" (keyup.enter)="addToDo()" [(ngModel)]="title">
+
+<button (click)="addToDo();">Add</button>
+
+<!-- <ul *ngIf="conditionList">
+    <li *ngFor="let todos of toDoList" [ngClass]="todos.completed ? 'completed':'active'">{{todos.title}}</li>
+</ul>
+<ul *ngIf="!conditionList">
+    <li *ngFor="let todos of sortList" [ngClass]="todos.completed ? 'completed':'active'">{{todos.title}}</li>
+</ul> -->
+<ul>
+<ng-container *ngFor="let todo of toDoList |keyvalue">
+    <ng-container *ngIf="filter === 'all'">
+        <li [ngClass]="todo.value.completed ? 'completed':'active'"(click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
+    </ng-container>
+
+    <ng-container *ngIf="filter === 'active'">
+        <li *ngIf="todo.value.completed === false" [ngClass]="'active'" (click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
+    </ng-container>
+
+    <ng-container *ngIf="filter === 'completed'">
+        <li *ngIf="todo.value.completed === true" [ngClass]="'completed'" (click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
+    </ng-container>
+</ng-container>
+
+</ul>
+<button (click) = "changeFilter('all')">All tasks</button>
+<button (click) = "changeFilter('active')">Active todos</button>
+<button (click) = "changeFilter('completed');">Completed todos</button>
+
