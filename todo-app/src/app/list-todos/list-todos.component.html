@@ -1,0 +1,37 @@
+<mat-card>
+<mat-list>
+    <ng-container *ngFor = "let todo of toDoList">
+        <ng-container *ngIf = "filter === 'all'">
+            <mat-list-item [ngClass] = "todo.completed ? 'completed' : 'active'" (click) = "toggleText.emit(todo.id);">
+                {{ todo.title }}
+                <i class="material-icons icon" (click) = "removeTodos.emit(todo.id)">
+                    cancel
+                </i>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+
+        </ng-container>
+
+        <ng-container *ngIf = "filter === 'active'">
+            <mat-list-item *ngIf = "todo.completed === false" [ngClass] = "'active'" (click) = "toggleText.emit(todo.id);">
+                {{ todo.title }}
+                <i class="material-icons icon" (click) = "removeTodos.emit(todo.id)">
+                        cancel
+                </i>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </ng-container>
+
+        <ng-container *ngIf = "filter === 'completed'">
+            <mat-list-item *ngIf = "todo.completed === true" [ngClass] = "'completed'" (click) = "toggleText.emit(todo.id);">
+                {{ todo.title }}
+                <i class="material-icons icon" (click) = "removeTodos.emit(todo.id)">
+                        cancel
+                </i>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </ng-container>
+    </ng-container>
+
+</mat-list>
+</mat-card>

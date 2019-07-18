@@ -1,9 +1,8 @@
-
-.active {
-    color: #08328b;
+.container{
+    width: 40%;
+    float:left;
 }
-
-.completed {
-    text-decoration: line-through;
-    color: green;
-}
+.mat-container {
+    display: flex;
+    flex-direction: column;
+  }

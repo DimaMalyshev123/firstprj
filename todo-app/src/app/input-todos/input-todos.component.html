@@ -1,31 +1,33 @@
+<div class= "container">
 
-<input name = "title" (keyup.enter)="addToDo()" [(ngModel)]="title">
 
-<button (click)="addToDo();">Add</button>
+<app-list-todos [toDoList] = "toDoList" [filter] = "filter" (toggleText) = "toggleText($event)"
+    (removeTodos) = "removeTodos($event)">
+</app-list-todos>
 
-<!-- <ul *ngIf="conditionList">
-    <li *ngFor="let todos of toDoList" [ngClass]="todos.completed ? 'completed':'active'">{{todos.title}}</li>
-</ul>
-<ul *ngIf="!conditionList">
-    <li *ngFor="let todos of sortList" [ngClass]="todos.completed ? 'completed':'active'">{{todos.title}}</li>
-</ul> -->
-<ul>
-<ng-container *ngFor="let todo of toDoList |keyvalue">
-    <ng-container *ngIf="filter === 'all'">
-        <li [ngClass]="todo.value.completed ? 'completed':'active'"(click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
-    </ng-container>
+<app-some-button [buttonText] = "'All tasks'" (someFunction) = "changeFilter('all')"></app-some-button>
+<app-some-button [buttonText] = "'Active todos'" (someFunction) = "changeFilter('active')"></app-some-button>
+<app-some-button [buttonText] = "'Completed todos'" (someFunction) = "changeFilter('completed')"></app-some-button>
+<app-some-button [buttonText] = "'All completed'" (someFunction) = "allCompleted()"></app-some-button>
+<app-some-button [buttonText] = "'Remove completed'" (someFunction) = "removeCompleted()"></app-some-button>
+</div>
 
-    <ng-container *ngIf="filter === 'active'">
-        <li *ngIf="todo.value.completed === false" [ngClass]="'active'" (click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
-    </ng-container>
-
-    <ng-container *ngIf="filter === 'completed'">
-        <li *ngIf="todo.value.completed === true" [ngClass]="'completed'" (click) = "toggleText(todo.key);">{{ todo.value.title }}</li>
-    </ng-container>
-</ng-container>
-
-</ul>
-<button (click) = "changeFilter('all')">All tasks</button>
-<button (click) = "changeFilter('active')">Active todos</button>
-<button (click) = "changeFilter('completed');">Completed todos</button>
+<div class = "container">
+    <mat-card class = "mat-container">
+        <mat-form-field>
+            <input matInput name = "title" (keyup.enter) = "addToDo()" [(ngModel)] = "title" placeholder = "Title">
+        </mat-form-field>
+        <mat-form-field>
+                <textarea matInput  name = "description" (keyup.enter) = "addToDo()" [(ngModel)] = "description" placeholder = "Description">
+                </textarea>
+        </mat-form-field>
+        <mat-checkbox name = "completed" [(ngModel)]="completed">Completed?</mat-checkbox>
+        <br>
+<div>
+        <app-some-button *ngIf="addOrEdit == 'add'" [buttonText]= "'Add'" (someFunction) = "addToDo()"></app-some-button>
+        <app-some-button *ngIf="addOrEdit == 'edit'" [buttonText]= "'Edit'" (someFunction) = "editToDo()"></app-some-button>
+        <app-some-button [buttonText]= "'Clear'" (someFunction) = "clearForm()"></app-some-button>
+</div>
+    </mat-card>
+</div>
 
