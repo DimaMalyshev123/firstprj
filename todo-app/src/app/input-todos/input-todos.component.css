@@ -1,8 +1,6 @@
 .container{
-    width: 40%;
+    width: 30%;
     float:left;
+    margin: 100px;
 }
-.mat-container {
-    display: flex;
-    flex-direction: column;
-  }
+

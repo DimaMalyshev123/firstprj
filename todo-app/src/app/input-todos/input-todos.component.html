@@ -11,23 +11,12 @@
 <app-some-button [buttonText] = "'All completed'" (someFunction) = "allCompleted()"></app-some-button>
 <app-some-button [buttonText] = "'Remove completed'" (someFunction) = "removeCompleted()"></app-some-button>
 </div>
+<!-- <button (click)="log(toDoForm)">test</button> -->
 
 <div class = "container">
-    <mat-card class = "mat-container">
-        <mat-form-field>
-            <input matInput name = "title" (keyup.enter) = "addToDo()" [(ngModel)] = "title" placeholder = "Title">
-        </mat-form-field>
-        <mat-form-field>
-                <textarea matInput  name = "description" (keyup.enter) = "addToDo()" [(ngModel)] = "description" placeholder = "Description">
-                </textarea>
-        </mat-form-field>
-        <mat-checkbox name = "completed" [(ngModel)]="completed">Completed?</mat-checkbox>
-        <br>
-<div>
-        <app-some-button *ngIf="addOrEdit == 'add'" [buttonText]= "'Add'" (someFunction) = "addToDo()"></app-some-button>
-        <app-some-button *ngIf="addOrEdit == 'edit'" [buttonText]= "'Edit'" (someFunction) = "editToDo()"></app-some-button>
-        <app-some-button [buttonText]= "'Clear'" (someFunction) = "clearForm()"></app-some-button>
+ <app-input-form [form] = "toDoForm" (add) = "addToDo()" (edit) = "editToDo()" (clear) = "clearForm()" [btnRender] = "addOrEdit">
+ </app-input-form>
 </div>
-    </mat-card>
-</div>
+
+
 

@@ -13,6 +13,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { InputFormComponent } from './input-form/input-form.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,7 @@ import {MatInputModule} from '@angular/material/input';
     InputTodosComponent,
     ListTodosComponent,
     SomeButtonComponent,
+    InputFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import {MatInputModule} from '@angular/material/input';
     MatDividerModule,
     MatListModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
