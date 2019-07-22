@@ -1,7 +1,7 @@
 <mat-card>
     <form [formGroup]="form" class="mat-container">
         <mat-form-field>
-            <input matInput (keyup.enter)="add.emit()" placeholder="Title" formControlName="title">
+            <input matInput placeholder="Title" formControlName="title">
             <small class="form-text text-muted"><code>{{form.value.title.length}}</code> / <code>50</code>
                 characters
                 <div
@@ -12,25 +12,24 @@
             </small>
         </mat-form-field>
         <mat-form-field>
-            <textarea matInput (keyup.enter)="add.emit()" formControlName="description" placeholder="Description">
-                    </textarea>
+            <textarea matInput formControlName="description" placeholder="Description">  
+            </textarea>
             <small class="form-text text-muted"><code>{{form.value.description.length}}</code> / <code>140</code>
                 characters
                 <div
                     *ngIf="form.controls.description.invalid && (form.controls.description.dirty || form.controls.description.touched)">
-                    <mat-error [hidden]="!form.controls['description'].errors">Description is required, min length
-                        10.</mat-error>
+                    <mat-error [hidden]="!form.controls['description'].errors">Description is required, min length 10.</mat-error>
                 </div>
             </small>
         </mat-form-field>
-        <mat-checkbox formControlName="completed" color="primary">Completed?</mat-checkbox>
+        <mat-checkbox formControlName="completed" color="primary" >Completed?</mat-checkbox>
         <br>
         <div>
-            <app-some-button *ngIf="btnRender == 'add'" [buttonText]="'Add'" [disabledBtn]="!form.valid"
-                (someFunction)="add.emit()"></app-some-button>
-            <app-some-button *ngIf="btnRender == 'edit'" [buttonText]="'Edit'" (someFunction)="edit.emit()"
-                [disabledBtn]="!form.valid"></app-some-button>
-            <app-some-button [buttonText]="'Clear'" (someFunction)="clear.emit()"></app-some-button>
+            <app-some-button  [buttonText]="btnText" [disabledBtn]="!form.valid"
+                (someFunction)="onFunction(); clearForm()">
+            </app-some-button>
+
+            <app-some-button [buttonText]="'Clear'" (someFunction)="clearForm()"></app-some-button>
         </div>
     </form>
 </mat-card>

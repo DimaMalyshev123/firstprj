@@ -3,6 +3,7 @@ import { Input } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Todo } from '../models/todo';
 
 @Component({
   selector: 'app-input-form',
@@ -10,15 +11,41 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./input-form.component.css']
 })
 export class InputFormComponent implements OnInit {
+  public form: FormGroup;
+  public selectedTodo: Todo;
+  @Input() btnText : string;
 
-  @Input() form : FormGroup;
-  @Input() btnRender : string;
-  @Output() add = new EventEmitter();
-  @Output() edit = new EventEmitter();
-  @Output() clear = new EventEmitter();
-  constructor() { }
-
-  ngOnInit() {
+  @Input() set todo(value: Todo) {
+    this.selectedTodo = value;
+    this.initForm(this.selectedTodo);
   }
 
+  @Output() function = new EventEmitter <object>();
+
+
+  
+  constructor() {}
+
+  ngOnInit() {
+    this.initForm();
+  }
+
+  initForm(todo?: Todo) {
+    this.form = new FormGroup({
+      title: new FormControl(todo ? todo.title : '',[Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
+      description: new FormControl(todo ? todo.description : '', [Validators.required, Validators.minLength(10), Validators.maxLength(140)]),
+      completed : new FormControl(todo ? todo.completed : false)
+    });
+  }
+  
+  clearForm() : void {
+   // this.form.reset();
+    this.form.controls.title.setValue('');
+    this.form.controls.description.setValue('');
+    this.form.controls.completed.setValue(false);
+  }
+
+  onFunction() {
+    this.function.emit({id: this.selectedTodo.id, title: this.form.value.title, description: this.form.value.description, completed: this.form.value.completed});
+  }
 }

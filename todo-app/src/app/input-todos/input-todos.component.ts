@@ -1,5 +1,5 @@
+import { Todo } from './../models/todo';
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../models/todo';
 import { TestService } from '../services/test.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
@@ -11,43 +11,35 @@ import { Validators } from '@angular/forms';
 })
 export class InputTodosComponent implements OnInit {
   
-  toDoForm = new FormGroup({
-    title: new FormControl('',[Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
-    description: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(140)]),
-    completed : new FormControl('')
-  });
-  
+  CurrentEl : Todo = {title: "",description: "", id : "", completed:false};;
 
   filter: string = 'all';
-  
-  addOrEdit: string = "add";
+  modeFormAdd : boolean = true;
+  ButtonText: string = "Add";
   id : number ;
   toDoList: Todo[] = [
-    { id: this.testService.generateRandomString(), title: "do something", completed: false, description: "" },
-    { id: this.testService.generateRandomString(), title: "do something end", completed: true, description: "" }];
+    { id: this.testService.generateRandomString(), title: "do something", completed: false, description: "sdadadadadadad1" },
+    { id: this.testService.generateRandomString(), title: "do something end", completed: true, description: "sdadadadadadad2" }];
 
   sortList: Todo[] = [];
 
   constructor(private testService: TestService) { }
 
   ngOnInit() {
-    console.log(this.toDoForm);
+    
   }
 
-  log() {
-    console.log(this.toDoForm);
-  }
+  addToDo(todos: Todo): void {
+    if (todos.title) {
+      this.toDoList.push({
+        id: this.testService.generateRandomString(), title: todos.title,
+        completed: todos.completed, description: todos.description
+      });
 
-  addToDo() : void {
-    if (this.toDoForm.valid) {
-      this.toDoList.push({ id: this.testService.generateRandomString(), title: this.toDoForm.controls.title.value, 
-        completed: this.toDoForm.controls.completed.value, description: this.toDoForm.controls.description.value });
-      const msg = "Title:" + this.toDoForm.controls.title.value + ". Record successfully added!";
+      const msg = "Title:" + todos.title + ". Record successfully added!";
       this.testService.openSnackBar(msg, 'Done');
-      this.toDoForm.controls.title.setValue('');
-      this.toDoForm.controls.description.setValue('');
-      this.toDoForm.controls.completed.setValue(false);
     }
+
   }
 
 
@@ -58,18 +50,18 @@ export class InputTodosComponent implements OnInit {
   toggleText(id: string): void {
     for (let i = 0; i < this.toDoList.length; i++) {
       if (this.toDoList[i].id == id) {
-        this.toDoForm.controls.title.setValue(this.toDoList[i].title);
-        this.toDoForm.controls.description.setValue(this.toDoList[i].description);
-        this.toDoForm.controls.completed.setValue(this.toDoList[i].completed);
+        this.CurrentEl = this.toDoList[i];
+        console.log(this.CurrentEl);
         this.id = i;
-        this.addOrEdit = 'edit';
+        this.modeFormAdd = false;
+        this.ButtonText = 'Edit';
       }
     }
   }
 
   removeTodos(id: string): void {
-    this.toDoList = this.toDoList.filter(function (todos: Todo) {
-      if (todos.id != id) return todos;
+    this.toDoList = this.toDoList.filter((todos: Todo) => {
+      if (todos.id != id) return true;
     });
     const msg = "Record successfully deleted!";
     this.testService.openSnackBar(msg, 'Done');
@@ -82,34 +74,26 @@ export class InputTodosComponent implements OnInit {
   }
 
   removeCompleted(): void {
-    this.toDoList = this.toDoList.filter(function (todos: Todo) {
-      if (!todos.completed) return todos;
+    this.toDoList = this.toDoList.filter( (todos: Todo) => {
+      if (!todos.completed) return true;
     });
   }
 
-  clearForm() : void {
-    this.toDoForm.controls.title.setValue('');
-    this.toDoForm.controls.description.setValue('');
-    this.toDoForm.controls.completed.setValue(false);
-    this.addOrEdit = 'add';
-  }
 
-
-  editToDo()
+  editToDo(todos : Todo)
   {
-    if (this.toDoForm.valid) {
-      this.toDoList[this.id].title = this.toDoForm.controls.title.value;
-      this.toDoList[this.id].completed = this.toDoForm.controls.completed.value;
-      this.toDoList[this.id].description = this.toDoForm.controls.description.value;
+    console.log(todos);
+    this.toDoList = this.toDoList.map((todo: Todo) => {
+      if(todo.id == todos.id) {
+        todo = todos;
+      }
+      return todo;
+    });
+    const msg = "Title:" + this.toDoList[this.id].title + ". Record successfully edited!";
+    this.testService.openSnackBar(msg, 'Done');
 
-      const msg = "Title:" + this.toDoList[this.id].title + ". Record successfully edited!";
-      this.testService.openSnackBar(msg, 'Done');
-
-      this.toDoForm.controls.title.setValue('');
-      this.toDoForm.controls.description.setValue('');
-      this.toDoForm.controls.completed.setValue(false);
-      this.id = null;
-    }
-    this.addOrEdit = 'add';
+    this.id = null;
+    this.modeFormAdd  = true;
+    this.ButtonText = 'Add';
   }
 }

@@ -14,7 +14,8 @@
 <!-- <button (click)="log(toDoForm)">test</button> -->
 
 <div class = "container">
- <app-input-form [form] = "toDoForm" (add) = "addToDo()" (edit) = "editToDo()" (clear) = "clearForm()" [btnRender] = "addOrEdit">
+ <app-input-form (function) = "modeFormAdd ? addToDo($event) : editToDo($event)" [btnText] = "ButtonText" 
+ [todo] = "CurrentEl" >
  </app-input-form>
 </div>
 
