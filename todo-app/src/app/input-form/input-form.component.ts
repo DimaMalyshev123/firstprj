@@ -46,6 +46,10 @@ export class InputFormComponent implements OnInit {
   }
 
   onFunction() {
-    this.function.emit({id: this.selectedTodo.id, title: this.form.value.title, description: this.form.value.description, completed: this.form.value.completed});
+    if (this.btnText == 'Add')
+      this.function.emit({ title: this.form.value.title, description: this.form.value.description, completed: this.form.value.completed });
+
+    if (this.btnText == 'Edit')
+      this.function.emit({_id: this.selectedTodo._id, title: this.form.value.title, description: this.form.value.description, completed: this.form.value.completed});
   }
 }

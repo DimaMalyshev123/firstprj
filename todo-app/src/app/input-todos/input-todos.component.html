@@ -1,6 +1,7 @@
+
 <div class= "container">
-
-
+<mat-spinner *ngIf="!responseServer" class = "loader"></mat-spinner>
+<h1 *ngIf="nothingTodo">Nothing Todo, just relax</h1> 
 <app-list-todos [toDoList] = "toDoList" [filter] = "filter" (toggleText) = "toggleText($event)"
     (removeTodos) = "removeTodos($event)">
 </app-list-todos>

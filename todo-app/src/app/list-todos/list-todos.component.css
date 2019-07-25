@@ -13,12 +13,14 @@
 .icon{
     margin-left: auto;
     color: rgb(250, 192, 192);
-    
-    
+    margin-right: 10px;
 }
+
+
 .icon:hover {
     color: red;
 }
+
 .record {
     width: 100%;
 }
@@ -27,6 +29,7 @@
     display: flex;
     cursor: pointer;
 }
+
 .container:hover {
     background-color: antiquewhite;
 }
@@ -34,6 +37,7 @@
 .mat-card {
     padding: 0px;
 }
+
 .mat-list-base {
     padding : 0px;
 }

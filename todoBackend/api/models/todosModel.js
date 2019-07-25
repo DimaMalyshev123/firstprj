@@ -1,9 +1,17 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var todosSchema = mongoose.Schema({
+const todosSchema = mongoose.Schema({
     id: String,
-    title: String,
-    description : String,
+    title: {
+        type: String,
+        validate: /\S{3,}/,
+        required: true
+    },
+    description: {
+        type: String,
+        validate: /\S{10,}/,
+        required: true
+    },
     completed: Boolean
 });
 

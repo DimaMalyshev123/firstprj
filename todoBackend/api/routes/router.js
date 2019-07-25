@@ -1,19 +1,22 @@
 const express = require("express");
-var controllerToDo = require("../controllers/todoController");
+const controllerToDo = require("../controllers/todoController");
 
 const toDoRouter = express.Router();
 
-toDoRouter.get('/all',controllerToDo.getToDos);
+toDoRouter.get('/todo',controllerToDo.getToDos);
 
 toDoRouter.delete('/delete/:id',controllerToDo.deleteToDo);
 
 toDoRouter.delete('/delete/completed/true', controllerToDo.deleteCompleted);
 
-toDoRouter.put('/allCompleted', controllerToDo.allCompleted);
+toDoRouter.put('/todo/completed', controllerToDo.allCompleted);
 
-toDoRouter.post('/addToDo', controllerToDo.addToDo);
+toDoRouter.post('/todo/add', controllerToDo.addToDo);
+
+toDoRouter.post('/todo/edit', controllerToDo.editToDo);
 
 
+  
 
 module.exports = toDoRouter; 
 

@@ -1,48 +1,78 @@
 
-const todos = require("../models/todosModel");
+const Todo = require("../models/todosModel");
 
 const todoController = {
 
     getToDos(req, res) {
 
-        todos.find().then((todo) => {
+        Todo.find().then((todo) => {
             return res.send(todo);
-        });     
+
+        });
     },
 
     deleteToDo(req, res) {
-        todos.remove({_id: req.params.id}).then((todo) => {
-            //return res.send(todo);
-            return res.send("<h2>Record deleted success</h2>");
+        Todo.remove({ _id: req.params.id }).then((todo) => {
+            todoController.getToDos(req, res);
         });
     },
 
     deleteCompleted(req, res) {
-        todos.remove({completed : true}).then((todo) => {
-            return res.send("<h2> Completed todos was deleted</h2>");
+        Todo.remove({ completed: true }).then((todo) => {
+            todoController.getToDos(req, res);
         })
     },
 
     allCompleted(req, res) {
-        todos.updateMany({completed : false}, {completed : true}).then((todo) => {
-            return res.send("<h2> All todo completed </h2>");
+        Todo.updateMany({ completed: false }, { completed: true }).then((todo) => {
+            todoController.getToDos(req, res);
         })
     },
 
+    async addToDo(req, res, next) {
+        try {
+            const todo = new Todo({
+                ...req.body
+            });
+            await todo.save();
+            todoController.getToDos(req, res);
 
-    addToDo(req, res) {
-        console.log(req.body);
+        } catch (error) {
 
+            error.msg = "";
+            if (error.errors.title) {
+                error.msg += "Title is required. Min length 3. ";
+            }
+            if (error.errors.description) {
+                error.msg += "Description is requred. Min length 10.";
+            }
+            next(error);
+        }
+    },
 
-        // let todo = new todos();
-        // todo.title = req.body.todo.title;
-        // todo.description = req.body.todo.description;
-        // todo.completed = req.body.todo.completed;
-        // todo.save().then((todo) => {
-        //     console.log(todo);
-        // })
+    async editToDo(req, res, next) {
+
+        const todo = await Todo.findById(req.body._id);
+
+        todo.title = req.body.title;
+        todo.description = req.body.description;
+        todo.completed = req.body.completed;
+
+        try {
+            await todo.save();
+            todoController.getToDos(req, res);
+        } catch (error) {
+
+            error.msg = "";
+            if (error.errors.title) {
+                error.msg += "Title is required. Min length 3. ";
+            }
+            if (error.errors.description) {
+                error.msg += "Description is requred. Min length 10.";
+            }
+            next(error);
+        }
     }
-
 }
 
 module.exports = todoController;

@@ -2,5 +2,18 @@
     width: 30%;
     float:left;
     margin: 100px;
+    min-width: 450px;
+    max-width:100%; 
 }
 
+h1 {
+    font-style: italic;
+    color: #f7d7d7;
+    font-size: 33px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.loader {
+    margin: auto;
+}
