@@ -1,32 +1,27 @@
 
-const Todo = require("../models/todosModel");
+const Todo = require('../models/todosModel');
 
 const todoController = {
 
-    getToDos(req, res) {
-
-        Todo.find().then((todo) => {
-            return res.send(todo);
-
-        });
+    async getToDos(req, res) {
+        const todo = await Todo.find();
+        return res.send(todo);
+       
     },
 
-    deleteToDo(req, res) {
-        Todo.remove({ _id: req.params.id }).then((todo) => {
-            todoController.getToDos(req, res);
-        });
+    async deleteToDo(req, res) {
+        await Todo.remove({ _id: req.params.id });
+        todoController.getToDos(req, res);
     },
 
-    deleteCompleted(req, res) {
-        Todo.remove({ completed: true }).then((todo) => {
-            todoController.getToDos(req, res);
-        })
+    async deleteCompleted(req, res) {
+        await Todo.remove({ completed: true });
+        todoController.getToDos(req, res);
     },
 
-    allCompleted(req, res) {
-        Todo.updateMany({ completed: false }, { completed: true }).then((todo) => {
-            todoController.getToDos(req, res);
-        })
+    async allCompleted(req, res) {
+        await Todo.updateMany({ completed: false }, { completed: true });
+        todoController.getToDos(req, res);
     },
 
     async addToDo(req, res, next) {
@@ -39,12 +34,12 @@ const todoController = {
 
         } catch (error) {
 
-            error.msg = "";
+            error.msg = '';
             if (error.errors.title) {
-                error.msg += "Title is required. Min length 3. ";
+                error.msg += 'Title is required. Min length 3. ';
             }
             if (error.errors.description) {
-                error.msg += "Description is requred. Min length 10.";
+                error.msg += 'Description is requred. Min length 10.';
             }
             next(error);
         }
@@ -63,12 +58,12 @@ const todoController = {
             todoController.getToDos(req, res);
         } catch (error) {
 
-            error.msg = "";
+            error.msg = '';
             if (error.errors.title) {
-                error.msg += "Title is required. Min length 3. ";
+                error.msg += 'Title is required. Min length 3. ';
             }
             if (error.errors.description) {
-                error.msg += "Description is requred. Min length 10.";
+                error.msg += 'Description is requred. Min length 10.';
             }
             next(error);
         }

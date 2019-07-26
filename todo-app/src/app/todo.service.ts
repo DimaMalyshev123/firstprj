@@ -26,7 +26,7 @@ export class TodoService {
     return this.apiService.delete(`delete/completed/true`);
   }
 
-  public addTodo(todo : Todo): Observable<Todo[]> {
+  public addTodo(todo: Todo): Observable<Todo[]> {
     return this.apiService.post('todo/add', todo);
   }
 

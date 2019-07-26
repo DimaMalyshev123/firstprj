@@ -36,8 +36,25 @@
 
 .mat-card {
     padding: 0px;
+    min-width: 30%;
+    min-height: 100px;
 }
 
 .mat-list-base {
     padding : 0px;
 }
+
+.mat-spinner {
+    margin : auto;
+}
+
+.loader {
+    background: rgb(150, 150, 150);
+    opacity: 0.4;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+}
+

@@ -1,35 +1,35 @@
 <mat-card>
-    <form [formGroup]="form" class="mat-container">
+    <form [formGroup] = "form" class = "mat-container">
+        
         <mat-form-field>
-            <input matInput placeholder="Title" formControlName="title">
-            <small class="form-text text-muted"><code>{{form.value.title.length}}</code> / <code>50</code>
-                characters
-                <div
-                    *ngIf="form.controls.title.invalid && (form.controls.title.dirty || form.controls.title.touched)">
-                    <mat-error [hidden]="!form.controls['title'].errors">Title is required, min length 3.
+            <input matInput placeholder = "Title" formControlName = "title">
+            <small class = "form-text text-muted">
+                <code>{{form.value.title.length}}</code> / <code> 50 </code> characters
+                <div *ngIf = "form.controls.title.invalid && (form.controls.title.dirty || form.controls.title.touched)">
+                    <mat-error [hidden] = "!form.controls['title'].errors">Title is required, min length 3.</mat-error>
+                </div>
+            </small>
+        </mat-form-field>
+
+        <mat-form-field>
+            <textarea matInput formControlName = "description" placeholder = "Description">
+            </textarea>
+            <small class = "form-text text-muted"><code>{{form.value.description.length}}</code> / <code> 140 </code> characters
+                <div *ngIf = "form.controls.description.invalid && (form.controls.description.dirty || form.controls.description.touched)">
+                    <mat-error [hidden] = "!form.controls['description'].errors"> Description is required, min length 10.
                     </mat-error>
                 </div>
             </small>
         </mat-form-field>
-        <mat-form-field>
-            <textarea matInput formControlName="description" placeholder="Description">  
-            </textarea>
-            <small class="form-text text-muted"><code>{{form.value.description.length}}</code> / <code>140</code>
-                characters
-                <div
-                    *ngIf="form.controls.description.invalid && (form.controls.description.dirty || form.controls.description.touched)">
-                    <mat-error [hidden]="!form.controls['description'].errors">Description is required, min length 10.</mat-error>
-                </div>
-            </small>
-        </mat-form-field>
-        <mat-checkbox formControlName="completed" color="primary" >Completed?</mat-checkbox>
-        <br>
-        <div>
-            <app-some-button  [buttonText]="btnText" [disabledBtn]="!form.valid"
-                (someFunction)="onFunction(); clearForm()">
-            </app-some-button>
 
-            <app-some-button [buttonText]="'Clear'" (someFunction)="clearForm()"></app-some-button>
+        <mat-checkbox formControlName = "completed" color = "primary"> Completed? </mat-checkbox>
+        <br>
+        
+        <div>
+            <app-some-button [buttonText] = "btnText" [disabledBtn] = "!form.valid"
+                (someFunction) = "onFunction(); clearForm()">
+            </app-some-button>
+            <app-some-button [buttonText] = "'Clear'" (someFunction) = "clearForm()"></app-some-button>
         </div>
     </form>
 </mat-card>

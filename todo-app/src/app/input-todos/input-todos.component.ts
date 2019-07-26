@@ -12,14 +12,14 @@ import { TodoService } from './../todo.service';
 })
 export class InputTodosComponent implements OnInit {
 
-  CurrentEl: Todo = { title: "", description: "", _id: "", completed: false };
-  responseServer : boolean = false;
+  CurrentEl: Todo = { title: '', description: '', _id: '', completed: false };
+  isLoading: boolean = false;
   filter: string = 'all';
   modeFormAdd: boolean = true;
-  ButtonText: string = "Add";;
+  ButtonText: string = 'Add';
   toDoList: Todo[] = [];
   nothingTodo: boolean;
-  remove : boolean = false;
+  remove: boolean = false;
 
   constructor(private testService: TestService, private todoService: TodoService) { }
 
@@ -38,17 +38,16 @@ export class InputTodosComponent implements OnInit {
       this.toDoList.push(res[i]);
     }
     if (this.toDoList.length) this.nothingTodo = false;
-    this.responseServer = true;
-    console.log(this.toDoList);
+    this.isLoading = true;
   }
 
   addToDo(todos: Todo): void {
-    this.responseServer = false;
+    this.isLoading = false;
     this.todoService.addTodo(todos).subscribe((res) => {
       this.updateList(res);
     });
 
-    const msg = "Title:" + todos.title + ". Record successfully added!";
+    const msg = 'Title:' + todos.title + '. Record successfully added!';
     this.testService.openSnackBar(msg, 'Done');
   }
 
@@ -62,7 +61,6 @@ export class InputTodosComponent implements OnInit {
       for (let i = 0; i < this.toDoList.length; i++) {
         if (this.toDoList[i]._id == id) {
           this.CurrentEl = this.toDoList[i];
-          console.log(this.CurrentEl);
           this.modeFormAdd = false;
           this.ButtonText = 'Edit';
         }
@@ -72,26 +70,25 @@ export class InputTodosComponent implements OnInit {
   }
 
   removeTodos(id: string): void {
-    this.responseServer = false;
+    this.isLoading = false;
     this.todoService.deleteTodo(id).subscribe((res) => {
       this.updateList(res);
     });
-    const msg = "Record successfully deleted!";
+
+    const msg = 'Record successfully deleted!';
     this.testService.openSnackBar(msg, 'Done');
-    console.log("remove!");
-    console.log(this.toDoList);
     this.remove = true;
   }
 
   allCompleted(): void {
-    this.responseServer = false;
+    this.isLoading = false;
     this.todoService.allCompleted().subscribe((res) => {
       this.updateList(res);
     });
   }
 
   removeCompleted(): void {
-    this.responseServer = false;
+    this.isLoading = false;
     this.todoService.deleteCompleted().subscribe((res) => {
       this.updateList(res);
     });
@@ -99,12 +96,12 @@ export class InputTodosComponent implements OnInit {
 
 
   editToDo(todo: Todo) {
-    this.responseServer = false;
+    this.isLoading = false;
     this.todoService.editTodo(todo).subscribe((res) => {
       this.updateList(res);
     });
 
-    const msg = "Title:" + todo.title + ". Record successfully edited!";
+    const msg = 'Title:' + todo.title + '. Record successfully edited!';
     this.testService.openSnackBar(msg, 'Done');
 
     this.modeFormAdd = true;

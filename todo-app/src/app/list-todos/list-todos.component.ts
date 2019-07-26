@@ -11,6 +11,7 @@ import { Todo } from '../models/todo';
 export class ListTodosComponent implements OnInit {
   @Input() toDoList : Todo[];
   @Input() filter: string;
+  @Input() isLoad : boolean;
   @Output() removeTodos = new EventEmitter();
   @Output() toggleText = new EventEmitter();
   constructor() { }

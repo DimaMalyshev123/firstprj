@@ -1,9 +1,11 @@
+.main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .container{
     width: 30%;
-    float:left;
-    margin: 100px;
-    min-width: 450px;
-    max-width:100%; 
+    margin: 100px; 
 }
 
 h1 {
@@ -14,6 +16,10 @@ h1 {
     margin-bottom: 10px;
 }
 
-.loader {
-    margin: auto;
+
+
+@media (max-width: 1024px) {
+    .container {
+        width : 100%;
+    }
 }

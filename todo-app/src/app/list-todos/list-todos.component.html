@@ -1,43 +1,49 @@
 <mat-card>
-<mat-list>
-    <ng-container *ngFor = "let todo of toDoList">
-        <ng-container *ngIf = "filter === 'all'">
-            <mat-list-item [ngClass] = "todo.completed ? 'completed' : 'active'"  class = "container" (click)="toggleText.emit(todo._id);">
-                <p class = "record">{{ todo.title }}</p>
-                <div>
-                    <i class="material-icons icon" (click) = "removeTodos.emit(todo._id)">
-                        cancel
-                    </i>
-                </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
+    <div [ngClass] = "{ loader: !isLoad }">
+        <mat-spinner *ngIf="!isLoad"></mat-spinner>
+    </div>
+    <mat-list>
+        <ng-container *ngFor = "let todo of toDoList">
+    
+            <ng-container *ngIf = "filter === 'all'">
+                <mat-list-item [ngClass] = "todo.completed ? 'completed' : 'active'" class = "container"
+                    (click) = "toggleText.emit(todo._id);">
+                    <p class = "record">{{ todo.title }}</p>
+                    <div>
+                        <i class = "material-icons icon" (click) = "removeTodos.emit(todo._id)">
+                            cancel
+                        </i>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </ng-container>
+
+            <ng-container *ngIf = "filter === 'active'">
+                <mat-list-item *ngIf = "todo.completed === false" [ngClass] = "'active'"
+                    (click) = "toggleText.emit(todo._id);">
+                    <p class = "record">{{ todo.title }}</p>
+                    <div>
+                        <i class = "material-icons icon" (click) = "removeTodos.emit(todo._id)">
+                            cancel
+                        </i>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </ng-container>
+
+            <ng-container *ngIf = "filter === 'completed'">
+                <mat-list-item *ngIf = "todo.completed === true" [ngClass] = "'completed'"
+                    (click) = "toggleText.emit(todo._id);">
+                    <p class = "record">{{ todo.title }}</p>
+                    <div>
+                        <i class = "material-icons icon" (click) = "removeTodos.emit(todo._id)">
+                            cancel
+                        </i>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </ng-container>
 
         </ng-container>
-
-        <ng-container *ngIf = "filter === 'active'">
-            <mat-list-item *ngIf = "todo.completed === false" [ngClass] = "'active'" (click)="toggleText.emit(todo._id);">              
-                <p class = "record">{{ todo.title }}</p>
-                <div>
-                <i class="material-icons icon" (click) = "removeTodos.emit(todo._id)">
-                        cancel
-                </i>
-                </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </ng-container>
-
-        <ng-container *ngIf = "filter === 'completed'">
-            <mat-list-item *ngIf = "todo.completed === true" [ngClass] = "'completed'" (click)="toggleText.emit(todo._id);">
-                <p class = "record" >{{ todo.title }}</p>
-                <div>
-                <i class="material-icons icon" (click) = "removeTodos.emit(todo._id)">
-                        cancel
-                </i>
-                </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </ng-container>
-    </ng-container>
-
-</mat-list>
+    </mat-list>
 </mat-card>

@@ -12,18 +12,18 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
 
   public get(path): Observable<any> {
-    return this.httpClient.get<any>(`${BASE_API_URL}/${path}`); 
+    return this.httpClient.get<any>(`${BASE_API_URL}/${path}`);
   }
 
-  public delete(path) : Observable<any> {
+  public delete(path): Observable<any> {
     return this.httpClient.delete<any>(`${BASE_API_URL}/${path}`);
   }
 
-  public put(path, body = {}) : Observable<any> {
+  public put(path, body = {}): Observable<any> {
     return this.httpClient.put<any>(`${BASE_API_URL}/${path}`, body);
   }
 
-  public post(path, body?) : Observable<any> {
+  public post(path, body?): Observable<any> {
     return this.httpClient.post<any>(`${BASE_API_URL}/${path}`, body);
   }
 
