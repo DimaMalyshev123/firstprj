@@ -4,3 +4,9 @@ export interface Todo {
     completed: boolean;
     description: string;
 }
+
+export interface State {
+    todos: Todo[];
+    selectedTodo: Todo;
+    filter: string;
+}

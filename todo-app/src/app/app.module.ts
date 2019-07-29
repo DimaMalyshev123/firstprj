@@ -18,7 +18,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { InputFormComponent } from './input-form/input-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import { StoreModule } from '@ngrx/store';
+import { TodoReducer } from './reducers/todos.reducer';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     MatSnackBarModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    StoreModule.forRoot({ todoState: TodoReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]

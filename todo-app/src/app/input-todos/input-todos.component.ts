@@ -1,9 +1,10 @@
-import { Todo } from './../models/todo';
+import { Todo, State } from './../models/todo';
 import { Component, OnInit } from '@angular/core';
 import { TestService } from '../services/test.service';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
 import { TodoService } from './../todo.service';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as actionsTodos from '../actions/todo.actions';
 
 @Component({
   selector: 'app-input-todos',
@@ -20,8 +21,19 @@ export class InputTodosComponent implements OnInit {
   toDoList: Todo[] = [];
   nothingTodo: boolean;
   remove: boolean = false;
+  stateTodo$ : Observable<State>;
+  _state : State;
 
-  constructor(private testService: TestService, private todoService: TodoService) { }
+  constructor(private testService: TestService, private todoService: TodoService,
+    private store: Store<{ State }>) {
+
+    this.stateTodo$ = store.pipe(select('todoState'));
+    this.stateTodo$.subscribe((state) => {
+      this._state = state;
+    });
+    console.log(this._state);
+
+  }
 
   ngOnInit() {
     this.todoService.getAllTodo().subscribe((res) => {
@@ -30,7 +42,7 @@ export class InputTodosComponent implements OnInit {
 
   }
 
-  updateList(res: Object) {
+  updateList(res: Todo[]) {
     this.toDoList = [];
     this.nothingTodo = true;
 
@@ -45,8 +57,11 @@ export class InputTodosComponent implements OnInit {
     this.isLoading = false;
     this.todoService.addTodo(todos).subscribe((res) => {
       this.updateList(res);
+
+      this.store.dispatch(actionsTodos.addTodo({ todoList: this.toDoList }));
     });
 
+    
     const msg = 'Title:' + todos.title + '. Record successfully added!';
     this.testService.openSnackBar(msg, 'Done');
   }
@@ -54,6 +69,8 @@ export class InputTodosComponent implements OnInit {
 
   changeFilter(value: string): void {
     this.filter = value;
+    //add filtered
+    this.store.dispatch(actionsTodos.changeFilter({todoList: null, filter : value}));
   }
 
   toggleText(id: string): void {
@@ -61,6 +78,9 @@ export class InputTodosComponent implements OnInit {
       for (let i = 0; i < this.toDoList.length; i++) {
         if (this.toDoList[i]._id == id) {
           this.CurrentEl = this.toDoList[i];
+
+          this.store.dispatch(actionsTodos.selectedTodo({selectTodo : this.CurrentEl}));
+
           this.modeFormAdd = false;
           this.ButtonText = 'Edit';
         }
@@ -73,6 +93,8 @@ export class InputTodosComponent implements OnInit {
     this.isLoading = false;
     this.todoService.deleteTodo(id).subscribe((res) => {
       this.updateList(res);
+
+      this.store.dispatch(actionsTodos.deleteTodo({todoList : this.toDoList}));
     });
 
     const msg = 'Record successfully deleted!';
@@ -91,6 +113,8 @@ export class InputTodosComponent implements OnInit {
     this.isLoading = false;
     this.todoService.deleteCompleted().subscribe((res) => {
       this.updateList(res);
+
+      this.store.dispatch(actionsTodos.deleteTodo({todoList : this.toDoList}));
     });
   }
 
@@ -99,6 +123,8 @@ export class InputTodosComponent implements OnInit {
     this.isLoading = false;
     this.todoService.editTodo(todo).subscribe((res) => {
       this.updateList(res);
+
+      this.store.dispatch(actionsTodos.editTodo({todoList: this.toDoList}));
     });
 
     const msg = 'Title:' + todo.title + '. Record successfully edited!';
